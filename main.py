@@ -5,11 +5,6 @@ from grid import Grid
 # Create the adjacency matrix. Shows if there's a link between two things.
 # use an adjacency list.
 
-'''
-for adjacency:
-each node is reachable from up, down, diagonal (4 ways), left, right. So 8 ways.
-'''
-
 class BreadthFirstPaths:
 
     def __init__(self, grid):
@@ -25,8 +20,10 @@ class BreadthFirstPaths:
 
         while self.queue:
             start_cell = self.queue.pop(0)
+            print(f'FOR CELL {start_cell}: EDGES ARE: {grid.get_cell(*start_cell).edges}')
 
             for adj in grid.get_cell(*start_cell).edges:
+                
                 if self.visited[adj] == False: #and distance_to_source[adj] != -1:
                     self.queue.append(adj)
                     self.distance_to_source[adj] = self.distance_to_source[start_cell] + 1
@@ -51,10 +48,14 @@ class BreadthFirstPaths:
 if __name__ == '__main__':
     grid = Grid(10, 10)
     grid.connect_everything()
-    grid.add_obstacle(9,7)
+    #grid.add_obstacle(9,7)
+    #grid.add_obstacle(8,7)
+    #grid.add_obstacle(6,7)
+    #grid.add_obstacle(6,8)
+    grid.add_obstacle(7,7)
+    grid.add_obstacle(7,8)
     grid.add_obstacle(8,7)
-    grid.add_obstacle(6,7)
-    grid.add_obstacle(6,8)
+    grid.add_obstacle(9,7)
     #print(grid.cells.keys())
     bfs = BreadthFirstPaths(grid)
     bfs.bfs((0,0))
