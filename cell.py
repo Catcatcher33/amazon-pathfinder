@@ -1,5 +1,3 @@
-from typing_extensions import Self
-
 class Cell:
 
     class Coordinates:
@@ -44,14 +42,10 @@ class Cell:
     def remove_edge(self, x, y):
         for i in self.edges:
             if i[0] == x and i[1] == y:
-                print(i)
+                #print(i)
                 self.edges.remove(i)
 
 if __name__ == '__main__':
     cell = Cell(1,1)
     cell.set_edges()
     print(cell.edges)
-
-
-
-

@@ -1,4 +1,4 @@
-from cell import Cell
+from grid import Grid
 
 # implementing breadth first search blah blah
 
@@ -10,39 +10,55 @@ for adjacency:
 each node is reachable from up, down, diagonal (4 ways), left, right. So 8 ways.
 '''
 
-class Grid:
-    def __init__(self, x_count, y_count):
-        self.cells: dict = {}
+class BreadthFirstPaths:
 
-        # Generate the entire grid.
-        for y in range(y_count):
-            for x in range(x_count):
-                cell = Cell(x, y)
-                self.cells[(x, y)] = cell
-    
-    def connect_everything(self):
-        for cell in self.cells.values():
-            for i in range(0,3):
-                for j in range(0,3):
-                    cell.edge(cell.coord.x-1+i, cell.coord.y-1+j)
+    def __init__(self, grid):
+        self.visited: dict = dict.fromkeys(grid.cells.keys(), False)
+        self.distance_to_source: dict = dict.fromkeys(grid.cells.keys(), -1)
+        self.edge_to: dict = dict.fromkeys(grid.cells.keys(), -1)
+        self.queue: list = []
 
-    def get_cell(self, x: int, y: int):
-        return self.cells.get((x, y))
+    def bfs(self, start_cell: tuple):
+        self.queue.append(start_cell)
+        self.visited[start_cell] = True
+        self.distance_to_source[start_cell] = 0
 
-    def add_obstacle(self, x, y):
-        for i in range(0,3):
-            for j in range(0,3):
-                adjacent_cell = self.get_cell(x-1+i, y-1+j)
-                if adjacent_cell is not None:
-                    print(f'FOR CELL {adjacent_cell.coord.x}, {adjacent_cell.coord.y}: -------')
-                    print(f'BEFORE: {adjacent_cell.edges}')
-                    adjacent_cell.remove_edge(x, y)
-                    print(f'AFTER: {adjacent_cell.edges}')
-        self.cells.pop((x, y))
+        while self.queue:
+            start_cell = self.queue.pop(0)
+
+            for adj in grid.get_cell(*start_cell).edges:
+                if self.visited[adj] == False: #and distance_to_source[adj] != -1:
+                    self.queue.append(adj)
+                    self.distance_to_source[adj] = self.distance_to_source[start_cell] + 1
+                    self.visited[adj] = True
+                    self.edge_to[adj] = start_cell
+
+    def has_path_to(self, cell):
+        return self.distance_to_source[cell] != -1
+
+    def path_to(self, cell, start_cell):
+        if not self.has_path_to(cell):
+            return None
+        path = []
+        x = cell
+        while x != start_cell:
+            path.append(x)
+            x = self.edge_to[x]
+        path.append(start_cell)
+        return path
+
 
 if __name__ == '__main__':
     grid = Grid(10, 10)
     grid.connect_everything()
     grid.add_obstacle(9,7)
-    print(grid.cells.keys())
+    grid.add_obstacle(8,7)
+    grid.add_obstacle(6,7)
+    grid.add_obstacle(6,8)
+    #print(grid.cells.keys())
+    bfs = BreadthFirstPaths(grid)
+    bfs.bfs((0,0))
+    path = bfs.path_to((9,9), (0,0))
+    print(path)
+    
     # print the path in the format [(x0, y0), (x1, y1), etc...]
