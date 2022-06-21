@@ -20,8 +20,6 @@ class BreadthFirstPaths:
 
         while self.queue:
             start_cell = self.queue.pop(0)
-            print(f'FOR CELL {start_cell}: EDGES ARE: {grid.get_cell(*start_cell).edges}')
-
             for adj in grid.get_cell(*start_cell).edges:
                 
                 if self.visited[adj] == False: #and distance_to_source[adj] != -1:
@@ -35,7 +33,7 @@ class BreadthFirstPaths:
 
     def path_to(self, cell, start_cell):
         if not self.has_path_to(cell):
-            return None
+            return 'Unable to reach delivery point.'
         path = []
         x = cell
         while x != start_cell:
@@ -52,10 +50,15 @@ if __name__ == '__main__':
     #grid.add_obstacle(8,7)
     #grid.add_obstacle(6,7)
     #grid.add_obstacle(6,8)
+    '''
     grid.add_obstacle(7,7)
     grid.add_obstacle(7,8)
     grid.add_obstacle(8,7)
     grid.add_obstacle(9,7)
+    '''
+    grid.add_obstacle(8,8)
+    grid.add_obstacle(8,9)
+    grid.add_obstacle(9,8)
     #print(grid.cells.keys())
     bfs = BreadthFirstPaths(grid)
     bfs.bfs((0,0))
