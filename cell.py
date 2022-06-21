@@ -15,39 +15,43 @@ class Cell:
         self.edges: list = [] # list of coordinates.
         self.obstacle: bool = True
 
-    def add_edge(self, x, y):
-        ''' Adds a pair of coordinates with a direct link to the current cell.'''
-        # don't add if the edge is listed as an obstacle.
+    def edge(self, x, y):
+        '''
+        Adds a pair of coordinates with a direct link to the current cell.
+        
+        No link is created in the current cases:
+            - the cell already exists
+            - the cell has invalid coordinates.
+            - the cell has the same coordinates as the current cell.
+        '''
+        if (x, y) in self.edges:
+            return
+        if (x < 0 or x > 9) or (y < 0 or y > 9):
+            return
+        if x == self.coord.x and y == self.coord.y: #  coordinates are its own.
+            return
         self.edges.append((x, y))
     
     def set_edges(self):
         x = self.coord.x
         y = self.coord.y
 
-        if 0 <= x < 9:
-            self.add_edge(x+1, y) #  east
+        # add surrounding edges
+        for i in range(0,3):
+            for j in range(0,3):
+                self.edge(x-1+i, y-1+j)
 
-            if 0 <= y < 9 :
-                self.add_edge(x, y+1) #  south
-                self.add_edge(x+1, y+1) #  southeast
-            
-            if 0 < y <= 9:
-                self.add_edge(x, y-1) #  north
-                self.add_edge(x+1, y-1) # northeast
+    def remove_edge(self, x, y):
+        for i in self.edges:
+            if i[0] == x and i[1] == y:
+                print(i)
+                self.edges.remove(i)
 
-        if 0 < x <= 9:
-
-            self.add_edge(x-1, y) #  west
-
-            if 0 <= y < 9 :
-                self.add_edge(x, y+1)  # south
-                self.add_edge(x-1, y+1) #  southwest
-            
-            if 0 < y <= 9:
-                self.add_edge(x, y-1) #  north
-                self.add_edge(x-1, y-1) # northwest     
+if __name__ == '__main__':
+    cell = Cell(1,1)
+    cell.set_edges()
+    print(cell.edges)
 
 
-cell = Cell(1,1)
-cell.set_edges()
-print(cell.edges)
+
+
