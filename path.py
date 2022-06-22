@@ -1,6 +1,6 @@
 
 
-class BreadthFirstPaths:
+class BreadthFirstPaths: # should rename the functions.
 
     def __init__(self, grid):
         self.grid = grid
@@ -29,7 +29,8 @@ class BreadthFirstPaths:
 
     def path_to(self, cell, start_cell):
         if not self.has_path_to(cell):
-            return 'Unable to reach delivery point.'
+            print('Unable to reach delivery point.')
+            return None
         path = []
         x = cell
         while x != start_cell:
