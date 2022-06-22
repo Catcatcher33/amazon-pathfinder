@@ -41,7 +41,7 @@ def phase_1(start_cell: int, end_cell: int):
     obstacles: list = [(7,7), (7,8), (8, 7), (9,7)]
     set_obstacles(grid, obstacles)
     path: list = compute_shortest_path(grid, start_cell, end_cell)
-    print(f'Path: {path}\nNumber of steps: {len(path)}\n')
+    print(f'Path: {path}\nNumber of steps: {len(path)-1}\n')
 
 
 @default_args
