@@ -75,3 +75,12 @@ class Grid:
                     adjacent_cell.remove_edge(x, y)
                     #print(f'AFTER: {adjacent_cell.edges}')
         self.cells.pop((x, y))
+
+    def set_obstacles(self, obstacles: list):
+        for obstacle in obstacles:
+            self.add_obstacle(*obstacle)
+
+def setup(x_n: int=10, y_n: int = 10) -> Grid:
+    grid = Grid(x_n, x_n)
+    grid.connect_everything()
+    return grid

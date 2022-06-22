@@ -1,8 +1,8 @@
-
+from grid import Grid
 
 class BreadthFirstPaths: # should rename the functions.
 
-    def __init__(self, grid):
+    def __init__(self, grid: Grid):
         self.grid = grid
         self.visited: dict = dict.fromkeys(grid.cells.keys(), False)
         self.distance_to_source: dict = dict.fromkeys(grid.cells.keys(), -1)
@@ -29,7 +29,6 @@ class BreadthFirstPaths: # should rename the functions.
 
     def path_to(self, cell, start_cell):
         if not self.has_path_to(cell):
-            print('Unable to reach delivery point.')
             return None
         path = []
         x = cell
@@ -39,3 +38,9 @@ class BreadthFirstPaths: # should rename the functions.
         path.append(start_cell)
         path.reverse()
         return path
+
+def compute_shortest_path(grid: Grid, start_cell: int, end_cell: int) -> list:
+    bfs = BreadthFirstPaths(grid)
+    bfs.bfs(start_cell)
+    path = bfs.path_to(end_cell, start_cell)
+    return path
