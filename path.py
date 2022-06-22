@@ -1,6 +1,7 @@
 from grid import Grid
 
-class BreadthFirstPaths: # should rename the functions.
+
+class BreadthFirstPaths:
 
     def __init__(self, grid: Grid):
         self.grid = grid
@@ -18,7 +19,7 @@ class BreadthFirstPaths: # should rename the functions.
             start_cell = self.queue.pop(0)
             for adj in self.grid.get_cell(*start_cell).edges:
                 
-                if self.visited[adj] == False: #and distance_to_source[adj] != -1:
+                if self.visited[adj] == False:
                     self.queue.append(adj)
                     self.distance_to_source[adj] = self.distance_to_source[start_cell] + 1
                     self.visited[adj] = True
