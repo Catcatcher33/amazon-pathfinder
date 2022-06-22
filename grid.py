@@ -80,7 +80,9 @@ class Grid:
         for obstacle in obstacles:
             self.add_obstacle(*obstacle)
 
-def setup(x_n: int=10, y_n: int = 10) -> Grid:
-    grid = Grid(x_n, x_n)
+
+def generate_grid(obstacles: list, x_n: int=10, y_n: int = 10) -> Grid:
+    grid = Grid(x_n, y_n)
     grid.connect_everything()
+    grid.set_obstacles(obstacles)
     return grid
