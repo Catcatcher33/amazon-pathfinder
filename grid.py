@@ -89,6 +89,20 @@ class Grid:
             self.add_obstacle(*obstacle)
 
 
+def print_grid(grid: Grid):
+    for y in range(10):
+        for x in range(10):
+            if (x, y) == (0,0): # start cell
+                print('|S|', end='')
+            elif (x, y) == (9,9):
+                print('|F|', end='')
+            elif (x, y) in grid.cells.keys():
+                print('| |', end ='')
+            else:
+                print('|X|', end ='') # DO THIS FOR THE PATH AS WELL
+        print("")
+
+
 def generate_grid(obstacles: list, x_n: int=10, y_n: int = 10) -> Grid:
     grid = Grid(x_n, y_n)
     grid.connect_everything()

@@ -1,8 +1,9 @@
 from random import randint
 from itertools import combinations
 
-from grid import generate_grid
+from grid import generate_grid, Grid
 from path import compute_shortest_path
+from ui.terminal import TerminalUI
 
 
 def alternate_paths(obstacles: list, removed_count: int, start_cell: tuple, end_cell: tuple):
@@ -36,10 +37,17 @@ def execute(obstacles: list):
     With a given list of obstacles, find the shortest possible path.
     '''
     start_cell = (0,0)
-    end_cell = (9,9)      
-    path: list = compute_shortest_path(generate_grid(obstacles), start_cell, end_cell)
+    end_cell = (9,9)
+    grid: Grid = generate_grid(obstacles)
+    path: list = compute_shortest_path(grid, start_cell, end_cell)
+    
+    
+    ui = TerminalUI(grid, start_cell, end_cell, x = 10, y = 10)
+    ui.init_grid()
+    ui.separator()
     print(f'Obstacles: {obstacles}')
     if path is not None:
+        ui.path(path)
         print(f'Path: {path}\nNumber of steps: {len(path)-1}\n')
     else:
         print(f'Unable to reach delivery point.')
@@ -52,7 +60,7 @@ def phase_1():
     '''
     Finds the shortest path for a grid with a predefined set of obstacles.
     '''
-    print('==== Phase 1 ====')
+    print('===== Phase 1 ======\n')
     obstacles: list = [(7,7), (7,8), (8, 7), (9,7)]
     execute(obstacles)
 
@@ -61,7 +69,7 @@ def phase_2():
     ''' 
     Finds the shortest path for a grid with Phase 1's obstacles and an additional random 20 obstacles.
     '''
-    print('==== Phase 2 ====')
+    print('===== Phase 2 ======\n')
 
     #  Create 20 individual obstacle coordinates
     obstacles: list = [(7,7), (7,8), (8, 7), (9,7)]
